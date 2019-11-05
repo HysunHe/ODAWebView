@@ -10,7 +10,7 @@ class QrCode extends Component {
                     <video id="video" className="QrCode-Square" width="300" height="200"></video>
                 </div>
 
-                <div className="QrCode-Square" id="result" style={{margin:"20px"}} >    
+                <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} >    
                 </div>
             </div>
         );

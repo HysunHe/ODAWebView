@@ -1,18 +1,8 @@
-// Send requests to USPTO
-const BASEURL = "https://developer.uspto.gov/ibd-api/v1";
-
 const OPT = {
     headers: {
         "Accept": "application/json",
         "Content-Type": "application/json",
     }
-};
-const QS = {
-    "start": 0,
-    "rows": 50,
-    //"searchText": "Method",
-    //"assignee": "Oracle",
-    //"inventor": "",
 };
 
 function jsonToQueryString(json) {
@@ -27,40 +17,6 @@ function _handleResponse(response) {
         throw new Error("Bad response from server");
     }
     return response.json();
-}
-
-/**
- * Fetch patent information.
- * @param parameters    Url query parameters
- * @param callback      Function A callback function taking a patent array as argument
- * @param errorCallback Function A callback function for handling error condition
- */
-async function fetchPatents(parameters, callback, errorCallback) {
-    const url = BASEURL + "/patent/application"
-        + jsonToQueryString({
-            ...QS,
-            ...parameters
-        });
-    //console.log("URL: " + url);
-    await fetch(url, OPT)
-    .then(_handleResponse)
-    .then(data => {
-        console.log("Fetch succeeded");
-        //console.log("   data: " + JSON.stringify(data));
-        let newItems = data.response.docs.map(item => {
-            return {
-                ...item,
-                selected: false
-            };
-        });
-        if (callback)
-            callback(newItems, data.response.numFound);
-    })
-    .catch(error => {
-        console.log("Error: " + error);
-        if (errorCallback)
-            errorCallback(error);
-    });
 }
 
 /**
@@ -101,7 +57,6 @@ function postback(payload, callback, errorCallback) {
 }
 
 export {
-    //jsonToQueryString,
-    fetchPatents,
+    jsonToQueryString,
     postback
 };
