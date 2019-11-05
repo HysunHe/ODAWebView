@@ -1,0 +1,12 @@
+{
+    "appenders": {
+        "console": { "type": "console" },
+        "file": { "type": "file", "filename": "log4js.log" }
+    },
+    "categories": {
+        "default": {
+            "appenders": [ "console", "file" ],
+            "level": "debug"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+[2019-11-04T17:11:46.257] [DEBUG] console - Webview service starting on: https://o100.odainfra.com/odaqr, port: 3001
+[2019-11-04T17:11:46.264] [DEBUG] console - Checking for any expired unused dir in /home/hysun/projects/ODAQR/webviewServer/webviewApp
+[2019-11-04T17:12:27.397] [DEBUG] console - Webview service starting on: http://localhost:3001, port: 3001
+[2019-11-04T17:12:27.404] [DEBUG] console - Checking for any expired unused dir in /home/hysun/projects/ODAQR/webviewServer/webviewApp
+[2019-11-04T17:18:30.771] [DEBUG] console - Webview service starting on: http://localhost:3001, port: 3001
+[2019-11-04T17:18:30.778] [DEBUG] console - Checking for any expired unused dir in /home/hysun/projects/ODAQR/webviewServer/webviewApp
+[2019-11-04T17:30:12.660] [DEBUG] console - Webview service starting on: http://localhost:3001, port: 3001
+[2019-11-04T17:30:12.669] [DEBUG] console - Checking for any expired unused dir in /home/hysun/projects/ODAQR/webviewServer/webviewApp
+[2019-11-04T17:34:09.801] [DEBUG] console - Webview service starting on: http://localhost:3001, port: 3001
+[2019-11-04T17:34:09.808] [DEBUG] console - Checking for any expired unused dir in /home/hysun/projects/ODAQR/webviewServer/webviewApp
