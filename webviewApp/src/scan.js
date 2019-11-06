@@ -33,7 +33,7 @@ class Scan extends Component {
         codeReader.decodeFromInputVideoDevice(device, 'video')
             .then((result) => {
                 console.log("Decode result: ", result);
-                this.confirmPay();
+                this.confirmPay(result);
                  // this.inputAmt.focus();
           }).catch((err) => {
                 console.error("Decode error:", err);
@@ -99,10 +99,9 @@ class Scan extends Component {
         });
     }
 
-    async  confirmPay() {
+    async  confirmPay(result) {
        this.toggleSpinner("loading");
-        let payload = {};
-        payload.amount = this.state.amount;
+        let payload = {result: result.text};
         await postback(payload, null, null);
         this.toggleSpinner("hide");
         this.setState({ 

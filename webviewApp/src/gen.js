@@ -20,7 +20,7 @@ class Gen extends Component {
     render() {
         return (
             <div className="QrCode-Scan-Region">
-                <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} >    
+                <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
                 </div>
             </div>
         );
