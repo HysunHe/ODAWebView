@@ -25,7 +25,7 @@ function _handleResponse(response) {
  * @param callback      Function A callback function
  * @param errorCallback Function A callback function for handling error condition
  */
-function postback(payload, callback, errorCallback) {
+async function postback(payload, callback, errorCallback) {
     let url = (window.CALLBACK_URL === '__CALLBACK_URL_PLACEHOLDER__' ? null
         : window.CALLBACK_URL);
     if (!url) {

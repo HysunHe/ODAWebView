@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import RefreshIndicator from 'material-ui/RefreshIndicator';
-import ToolBar from './ToolBar';
-import QrCode from './QrCode';
-import { BrowserQRCodeReader, BrowserQRCodeSvgWriter } from '@zxing/library';
+import { BrowserRouter as Router,Route} from 'react-router-dom';
 
-import './App.css';
+import QrCode from './qrCode';
+import Scan from './scan';
+import Gen from './gen'
 
 import "core-js";
 // import adapter from 'webrtc-adapter';
+
+import './App.css';
 
 import VConsole from 'vconsole';
 window.vConsole = new VConsole();
@@ -21,15 +22,15 @@ class TitleBar extends Component {
             </div>
         );
     }
-}
+} 
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            assignee: (window.ASSIGNEE === "__ASSIGNEE_PLACEHOLDER__" ? "Oracle" : window.ASSIGNEE),
-            inventor: (window.INVENTOR === "__INVENTOR_PLACEHOLDER__" ? "James" : window.INVENTOR),
-            searchText: (window.KEYWORD === "__KEYWORD_PLACEHOLDER__" ? "systems" : window.KEYWORD),
+            username: (window.USERNAME === "__USERNAME_PLACEHOLDER__" ? "Not Specified" : window.USERNAME),
+            account: (window.ACCOUNT === "__ACCOUNT_PLACEHOLDER__" ? "Not Specified" : window.ACCOUNT),
+            bankbranch: (window.BANKBRANCH === "__BANKBRANCH_PLACEHOLDER__" ? "Not Specified" : window.BANKBRANCH),
         };
     }
 
@@ -37,20 +38,15 @@ class App extends Component {
         return (
             <MuiThemeProvider>
                 <div className="App">
-                    <RefreshIndicator size={60} status={this.state.loadingState}
-                        top={50} left={50}
-                        style={{position:"absolute", top:"50%", left:"50%",
-                                transform:"translateX(-50%) translateY(-50%)"}} />
-
                     <div style={{display: "block"}}>
                         <TitleBar title={"QR Code"} />
-
-                        <ToolBar  scanQrCode = {this.scanQrCode} 
-                            generateQrCode = {this.generateQrCode} 
-                        />
-
-                        <QrCode />
-
+                        <Router >
+                            <div>
+                                <Route exact path="/" component={QrCode} />            
+                                <Route path="/scan" component={Scan} /> 
+                                <Route path="/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                            </div>
+                        </Router>
                     </div>
                 </div>
             </MuiThemeProvider>
@@ -63,28 +59,6 @@ class App extends Component {
 
     componentDidMount() {
         console.log("*** componentDidMount");
-    }
-
-    scanQrCode = async () => {
-        console.log("*** Scanning QR code");
-        const codeReader = new BrowserQRCodeReader();
-        let devices = await codeReader.getVideoInputDevices();
-        console.log("*** devices: ", devices);
-        let device = devices[0].deviceId;
-        console.log("*** Use device: " + device);
-        codeReader.decodeFromInputVideoDevice(device, 'video')
-            .then((result) => {
-                console.log("Decode result: ", result);
-          }).catch((err) => {
-                console.error("Decode error:", err);
-          })
-    }
-
-    generateQrCode = async () => {
-        console.log("*** Generating QR code ");
-        const codeWriter = new BrowserQRCodeSvgWriter();
-        codeWriter.writeToDom('#result', 'http://www.baidu.com', 300, 300);
-        console.log("*** Generating QR code...[Done]");
     }
 }
 

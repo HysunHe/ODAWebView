@@ -26,7 +26,12 @@
     font-size: large;
     /*position: fixed;*/
     width: 100%;
-    border-bottom: 0.5px solid #AAAAAA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: calc(100vh - 41px);
+   /* border-bottom: 0.5px solid #AAAAAA; */
 }
 
 .App-toolbar-label {
@@ -41,10 +46,26 @@
 }
 
 .App-toolbar-button {
-    margin: 5px !important;
-    background-color: #EEEEEE !important;
-    border: 0.5px solid #AAAAAA !important;
-    font-size: 0.75rem !important;
+    background-color: #04BE02;
+    color: #FFF;
+    font-size: 1.25rem !important;
+    width:  300px;
+    line-height:3;
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer !important;
+}
+
+.normal-button {
+    background-color: #04BE02;
+    color: #FFF;
+    font-size: 1.25rem !important;
+    max-width:  400px;
+    width:100%;
+    line-height:2;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer !important;
 }
 
 .App-domain-list {
@@ -136,11 +157,12 @@
 
 .QrCode-Scan-Region {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     margin:20px;
 }
 
 .QrCode-Square {
-    border: 1px solid gray;
+/*    border: 1px solid gray; */
 }
