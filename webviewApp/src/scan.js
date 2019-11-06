@@ -111,7 +111,7 @@ class Scan extends Component {
          });
         setTimeout(() => {
             window.top.close(); 
-        }, 1000);
+        }, 3000);
     }
 }
 
