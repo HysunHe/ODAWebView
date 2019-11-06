@@ -35,6 +35,17 @@ class App extends Component {
     }
 
     render() {
+        let content = "";
+        if(window.TARGETACTION === 'gen') {
+            content = (
+                <Gen />
+            );
+        } else  if(window.TARGETACTION === 'scan') {
+            content = (
+                <Scan />
+            );
+        } 
+
         return (
             <MuiThemeProvider>
                 <div className="App">
@@ -42,12 +53,12 @@ class App extends Component {
                         <TitleBar title={"QR Code"} />
                         <Router >
                             <div>
-                                <Route exact path="/" component={QrCode} />            
-                                <Route path="/odaqr/webviewApp/(.*)/index.html" component={QrCode} />            
+                                <Route exact path="/" component={QrCode} />                    
                                 <Route path="/odaqr/webviewApp/(.*)/scan" component={Scan} /> 
                                 <Route path="/odaqr/webviewApp/(.*)/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                             </div>
                         </Router>
+                        {content}
                     </div>
                 </div>
             </MuiThemeProvider>

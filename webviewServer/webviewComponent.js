@@ -100,10 +100,9 @@ function handlePostRequest(req, res) {
     }
 
     let targetActionObj = req.body.parameters.find( ({key}) => key === 'targetAction' );
-    let targetAction = !targetActionObj ? "index.html" : targetActionObj.value;
     console.log("*** Target action is: ", targetActionObj);
     const resbody = {
-        'webview.url': externalServiceUrl + '/webviewApp/' + uuid + '/' + targetAction
+        'webview.url': externalServiceUrl + '/webviewApp/' + uuid + '/index.html'
     };
 
     utils.debugLog('Response body: ' + JSON.stringify(resbody));
