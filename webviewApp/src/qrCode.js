@@ -22,12 +22,12 @@ class QrCode extends Component {
 
     goToScan() {
         console.log("*** goToScan");
-        this.props.history.push('/scan');
+        this.props.history.push('/odaqr/webviewApp/goto/scan');
     }
 
     goToGen() {
         console.log("*** goToGen");
-        this.props.history.push('/gen');
+        this.props.history.push('/odaqr/webviewApp/goto/gen');
     }
 }
 

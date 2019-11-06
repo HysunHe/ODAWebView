@@ -3,15 +3,11 @@ import { BrowserQRCodeSvgWriter } from '@zxing/library';
 import './App.css';
 
 class Gen extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         console.log("*** Scan componentWillMount");
     }
 
-    async componentDidMount() {
+    async componentDidMount() {  
         const codeWriter = new BrowserQRCodeSvgWriter();
         codeWriter.writeToDom('#result', 'http://www.baidu.com', 300, 300);
         console.log("*** Generating QR code...[Done]");

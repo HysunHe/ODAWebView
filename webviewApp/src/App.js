@@ -43,8 +43,9 @@ class App extends Component {
                         <Router >
                             <div>
                                 <Route exact path="/" component={QrCode} />            
-                                <Route path="/scan" component={Scan} /> 
-                                <Route path="/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                <Route path="/odaqr/webviewApp/(.*)/index.html" component={QrCode} />            
+                                <Route path="/odaqr/webviewApp/(.*)/scan" component={Scan} /> 
+                                <Route path="/odaqr/webviewApp/(.*)/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                             </div>
                         </Router>
                     </div>

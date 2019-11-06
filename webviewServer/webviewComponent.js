@@ -77,7 +77,7 @@ function handleGetRequest(req, res, next) {
     res.sendFile(__dirname + filePath);
 }
 
-function handlePostRequest(req, res, next) {
+function handlePostRequest(req, res) {
     utils.debugLog('POST ' + req.protocol+'://'+req.get('host')+req.originalUrl);
     utils.debugLog('Request body: ' + JSON.stringify(req.body));
     console.log("*** Request payload: ", req.body);
@@ -99,9 +99,13 @@ function handlePostRequest(req, res, next) {
         return;
     }
 
+    let targetActionObj = req.body.parameters.find( ({key}) => key === 'targetAction' );
+    let targetAction = !targetActionObj ? "index.html" : targetActionObj.value;
+    console.log("*** Target action is: ", targetActionObj);
     const resbody = {
-        'webview.url': externalServiceUrl + '/webviewApp/' + uuid + '/index.html'
+        'webview.url': externalServiceUrl + '/webviewApp/' + uuid + '/' + targetAction
     };
+
     utils.debugLog('Response body: ' + JSON.stringify(resbody));
     res.json(resbody);
 }
