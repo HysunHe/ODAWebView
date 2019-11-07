@@ -58,7 +58,7 @@ class Scan extends Component {
                 <input type="number" ref={(input) => this.inputAmt = input}  value={this.state.amount}
                     style={{ width: "100%", marginTop: "20px", lineHeight: 2, fontSize: "20px" }}
                     onChange={this.handleAmountChange}></input>
-                <button className="normal-button" onClick={this.confirmPay}>Confirm to Pay</button>  
+                <button className="normal-button" onClick={this.confirmPay()}>Confirm to Pay</button>  
             </div> 
             )
         } 
@@ -100,10 +100,10 @@ class Scan extends Component {
         });
     }
 
-    async  confirmPay(result) {
+    confirmPay(result) {
        this.toggleSpinner("loading");
         let payload = {result: result.text};
-        await postback(payload, null, null);
+        postback(payload, null, null);
         this.toggleSpinner("hide");
         this.setState({ 
             showAmt:  false,
