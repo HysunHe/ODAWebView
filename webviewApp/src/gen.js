@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserQRCodeSvgWriter } from '@zxing/library';
+import { postback } from './RestUtil';
 import './App.css';
 
 class Gen extends Component {
