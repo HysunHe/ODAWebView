@@ -6,6 +6,9 @@ import './App.css';
 class Gen extends Component {
     constructor(props) {
         super(props);
+        this.state = { 
+            payDone: false
+         };
          this.completedPay = this.completedPay.bind(this);
     }
 
@@ -20,11 +23,27 @@ class Gen extends Component {
     }
 
     render() {
+        let codeSection = "",  payDoneSection = "";
+        if(this.state.payDone) {
+            payDoneSection = (
+                <div>
+                    Success. Please return to the ChatBot and continue the conversation.
+                </div>
+            );
+        } else {
+            codeSection = (
+                <div className="QrCode-Scan-Region">
+                    <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
+                    </div>
+                    <button className="normal-button" onClick={this.completedPay}>Completed the pay</button>  
+                </div>
+            );
+        }
+
         return (
             <div className="QrCode-Scan-Region">
-                <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
-                </div>
-                <button className="normal-button" onClick={this.completedPay}>Completed the pay</button>  
+                {codeSection}
+                {payDoneSection}
             </div>
         );
     }
@@ -32,6 +51,9 @@ class Gen extends Component {
     completedPay() {
          let payload = {result: "ok"};
          postback(payload, null, null);
+         this.setState({ 
+            payDone: true
+         });
          setTimeout(() => {
              window.top.close(); 
          }, 1000);

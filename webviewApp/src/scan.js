@@ -10,6 +10,7 @@ class Scan extends Component {
         this.state = { 
             showAmt:  false,
             showScan:  true,
+            payDone: false,
             loadingState: "hide",
             amount: 100
          };
