@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserQRCodeReader } from '@zxing/library';
+import { BrowserQRCodeReader, BrowserBarcodeReader } from '@zxing/library';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { postback } from './RestUtil';
 import './App.css';
@@ -24,7 +24,8 @@ class Scan extends Component {
         this.toggleSpinner("loading");
         console.log("*** Scan componentDidMount");
         console.log("*** Scanning QR code");
-        const codeReader = new BrowserQRCodeReader();
+        const codeReader = window.TARGETACTION === 'scanbar' ? 
+            new BrowserBarcodeReader() : new BrowserQRCodeReader();
         let devices = await codeReader.getVideoInputDevices();
         console.log("*** devices: ", devices);
         let device = devices[0].deviceId;

@@ -27,11 +27,6 @@ class TitleBar extends Component {
 class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: (window.USERNAME === "__USERNAME_PLACEHOLDER__" ? "Not Specified" : window.USERNAME),
-            account: (window.ACCOUNT === "__ACCOUNT_PLACEHOLDER__" ? "Not Specified" : window.ACCOUNT),
-            bankbranch: (window.BANKBRANCH === "__BANKBRANCH_PLACEHOLDER__" ? "Not Specified" : window.BANKBRANCH),
-        };
     }
 
     render() {
@@ -40,7 +35,8 @@ class App extends Component {
             content = (
                 <Gen />
             );
-        } else  if(window.TARGETACTION === 'scan') {
+        } else  if(window.TARGETACTION === 'scanqr'  || 
+                        window.TARGETACTION === 'scanbar') {
             content = (
                 <Scan />
             );
@@ -50,7 +46,7 @@ class App extends Component {
             <MuiThemeProvider>
                 <div className="App">
                     <div style={{display: "block"}}>
-                        <TitleBar title={"QR Code"} />
+                        <TitleBar title={"QR / Bar Code WebView"} />
                         <Router >
                             <div>
                                 <Route exact path="/" component={QrCode} />                    
