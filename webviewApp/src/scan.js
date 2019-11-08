@@ -26,6 +26,7 @@ class Scan extends Component {
         console.log("*** Scanning QR code");
         const codeReader = window.TARGETACTION === 'scanbar' ? 
             new BrowserBarcodeReader() : new BrowserQRCodeReader();
+        // const codeReader = new BrowserBarcodeReader();
         let devices = await codeReader.getVideoInputDevices();
         console.log("*** devices: " , devices);
 
@@ -146,9 +147,27 @@ class Scan extends Component {
         });
     }
 
+    hasJsonStructure(str) {
+        if (typeof str !== 'string') return false;
+        try {
+            const result = JSON.parse(str);
+            const type = Object.prototype.toString.call(result);
+            return type === '[object Object]' 
+                || type === '[object Array]';
+        } catch (err) {
+            return false;
+        }
+    }
+
     confirmPay(result) {
        this.toggleSpinner("loading");
-        let payload = {result: result.text};
+       let payload;
+       if(this.hasJsonStructure(result.text)) {
+        payload = JSON.parse(result.text);
+       } else {
+        payload = {result: result.text};
+       }
+       console.log("*** payload", payload);
         postback(payload, null, null);
         this.toggleSpinner("hide");
         this.setState({ 

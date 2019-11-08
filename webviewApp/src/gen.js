@@ -23,7 +23,7 @@ class Gen extends Component {
             "customername": "Spider Man",
             "datetime": (new Date()).getTime()
         }
-        codeWriter.writeToDom('#result', input, 300, 300);
+        codeWriter.writeToDom('#result', JSON.stringify(input), 300, 300);
         console.log("*** Generating QR code...[Done]");
     }
 
@@ -54,7 +54,12 @@ class Gen extends Component {
     }
 
     completedPay() {
-         let payload = {result: "ok"};
+         const payload =  {
+            "merchantid": "merchant - " + (new Date()).getMinutes(),
+            "merchantname": "Mall - " +  (new Date()).getSeconds(),
+            "amount":   (new Date()).getMilliseconds(),
+            "datetime":  (new Date()).getTime()
+        }
          postback(payload, null, null);
          this.setState({ 
             payDone: true
