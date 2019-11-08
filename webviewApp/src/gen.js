@@ -18,7 +18,12 @@ class Gen extends Component {
 
     async componentDidMount() {  
         const codeWriter = new BrowserQRCodeSvgWriter();
-        codeWriter.writeToDom('#result', 'http://www.baidu.com', 300, 300);
+        const input = {
+            "customerid": "customer128934",
+            "customername": "Spider Man",
+            "datetime": (new Date()).getTime()
+        }
+        codeWriter.writeToDom('#result', input, 300, 300);
         console.log("*** Generating QR code...[Done]");
     }
 
