@@ -130,6 +130,9 @@ class Scan extends Component {
        } else {
         payload = {result: result.text};
        }
+       payload["txid"] = "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
+       payload["datetime"] =  (new Date()).getTime();
+
        console.log("*** payload", payload);
         postback(payload, null, null);
         this.toggleSpinner("hide");
