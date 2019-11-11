@@ -126,13 +126,16 @@ class Scan extends Component {
        this.toggleSpinner("loading");
        let payload;
        if(this.hasJsonStructure(result.text)) {
-        payload = JSON.parse(result.text);
+            payload = JSON.parse(result.text);
        } else {
-        payload = {result: result.text};
+            payload = {result: result.text};
        }
        payload["txid"] = "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
        payload["datetime"] =  (new Date()).getTime();
-
+       if( window.TARGETACTION === 'scanbar' ) {
+            payload["merchantid"] = "merchant - " + (new Date()).getMinutes();
+            payload["merchantname"] = "Mall - " +  (new Date()).getSeconds();
+       }
        console.log("*** payload", payload);
         postback(payload, null, null);
         this.toggleSpinner("hide");
