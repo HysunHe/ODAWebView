@@ -39,43 +39,6 @@ class Scan extends Component {
           }).catch((err) => {
                 console.error("Decode error:", err);
           })
-       
-        // let device = null;
-        // const sourceSelect = document.getElementById('sourceSelect');
-        // if (devices.length >= 1) {
-        //     devices.forEach((element) => {
-        //         const sourceOption = document.createElement('option')
-        //         sourceOption.text = element.label
-        //         sourceOption.value = element.deviceId
-        //         sourceSelect.appendChild(sourceOption)
-        //     })
-        //     const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-        //     sourceSelectPanel.style.display = 'flex'  
-        // }
-        
-        // sourceSelect.onchange = () => {
-        //     try {
-        //         codeReader.stopAsyncDecode();
-        //     } catch (err) {}
-        //     try {
-        //         codeReader.stopContinuousDecode();
-        //     } catch (err) {}
-        //     if(sourceSelect.value === "") {
-        //         device = null;
-        //     } else {
-        //         device = sourceSelect.value;
-        //     }
-            
-            // console.log("*** Decode using device: " + device);
-            // const codeReader2 = window.TARGETACTION === 'scanbar' ? 
-            // new BrowserBarcodeReader() : new BrowserQRCodeReader();
-            // codeReader2.decodeFromInputVideoDevice(device, 'video').then((result) => {
-            //     console.log("Decode result: ", result);
-            //     this.confirmPay(result);
-            // }).catch((err) => {
-            //         console.error("Decode error:", err);
-            // })
-        // };
     }
 
     toggleSpinner = (loading) => {

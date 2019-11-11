@@ -40,7 +40,7 @@ class Gen extends Component {
                 <div className="QrCode-Scan-Region">
                     <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
                     </div>
-                    <button className="normal-button" onClick={this.completedPay}>Completed the pay</button>  
+                    <button className="normal-button" onClick={this.completedPay}>Done</button>  
                 </div>
             );
         }
@@ -55,6 +55,7 @@ class Gen extends Component {
 
     completedPay() {
          const payload =  {
+            "txid": "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
             "merchantid": "merchant - " + (new Date()).getMinutes(),
             "merchantname": "Mall - " +  (new Date()).getSeconds(),
             "amount":   (new Date()).getMilliseconds(),

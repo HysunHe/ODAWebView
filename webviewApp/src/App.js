@@ -15,6 +15,9 @@ import VConsole from 'vconsole';
 window.vConsole = new VConsole();
 
 class TitleBar extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
         return (
             <div className="App-header">
@@ -27,6 +30,9 @@ class TitleBar extends Component {
 class App extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            title: "webview"
+        };
     }
 
     render() {
@@ -46,7 +52,7 @@ class App extends Component {
             <MuiThemeProvider>
                 <div className="App">
                     <div style={{display: "block"}}>
-                        <TitleBar title={"QR / Bar Code WebView"} />
+                        <TitleBar title={this.state.title} />
                         <Router >
                             <div>
                                 <Route exact path="/" component={QrCode} />                    
@@ -62,7 +68,17 @@ class App extends Component {
     }
 
     componentWillMount() {
-        console.log("*** componentWillMount");
+        if(window.TARGETACTION === 'gen') {
+            this.setState({
+                title: "Pay vendors"
+            });
+        } else  if(window.TARGETACTION === 'scanqr'  || 
+                        window.TARGETACTION === 'scanbar') {
+            this.setState({
+                title: "Scan"
+            });
+        } 
+        console.log("**** title: " + this.state.title);
     }
 
     componentDidMount() {
