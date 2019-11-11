@@ -54,12 +54,13 @@ class Gen extends Component {
     }
 
     completedPay() {
+        const d = new Date();
          const payload =  {
             "txid": "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
             "merchantid": "merchant - " + (new Date()).getMinutes(),
             "merchantname": "Mall - " +  (new Date()).getSeconds(),
             "amount":   (new Date()).getMilliseconds(),
-            "datetime":  (new Date()).getTime()
+            "datetime":  [d.getFullYear(), d.getMonth()+1, d.getDate()].join('-')+' '+ [d.getHours(), d.getMinutes(), d.getSeconds()].join(':')
         }
          postback(payload, null, null);
          this.setState({ 

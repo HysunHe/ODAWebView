@@ -130,8 +130,9 @@ class Scan extends Component {
        } else {
             payload = {result: result.text};
        }
-       payload["txid"] = "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
-       payload["datetime"] =  (new Date()).getTime();
+       payload["txid"] = "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear();
+       const d = new Date();
+       payload["datetime"] =  [d.getFullYear(), d.getMonth()+1, d.getDate()].join('-')+' '+ [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
        if( window.TARGETACTION === 'scanbar' ) {
             payload["merchantid"] = "merchant - " + (new Date()).getMinutes();
             payload["merchantname"] = "Mall - " +  (new Date()).getSeconds();
