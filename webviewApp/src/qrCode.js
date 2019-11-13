@@ -4,7 +4,8 @@ import './App.css';
 class QrCode extends Component {
     constructor(props) {
         super(props);
-        this.goToScan = this.goToScan.bind(this);
+        this.goToScanBar = this.goToScanBar.bind(this);
+        this.goToScanQr = this.goToScanQr.bind(this);
         this.goToGen = this.goToGen.bind(this);
     }
 
@@ -12,7 +13,10 @@ class QrCode extends Component {
         return ( 
             <div className="App-toolbar">
                 <button className="App-toolbar-button"
-                    onClick={this.goToScan}>Scan QR Code</button>
+                    onClick={this.goToScanQr}>Scan QR Code</button>
+
+                <button className="App-toolbar-button"
+                    onClick={this.goToScanBar}>Scan Bar Code</button>
 
                 <button className="App-toolbar-button"
                     onClick={this.goToGen}>Generate QR Code</button>   
@@ -20,14 +24,19 @@ class QrCode extends Component {
         ); 
     }
 
-    goToScan() {
+    goToScanQr() {
         console.log("*** goToScan");
-        this.props.history.push('/odaqr/webviewApp/goto/scan');
+        this.props.history.push('/scanqr');
+    }
+
+    goToScanBar() {
+        console.log("*** goToScan");
+        this.props.history.push('/scanbar');
     }
 
     goToGen() {
         console.log("*** goToGen");
-        this.props.history.push('/odaqr/webviewApp/goto/gen');
+        this.props.history.push('/gen');
     }
 }
 

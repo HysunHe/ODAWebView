@@ -3,7 +3,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router,Route} from 'react-router-dom';
 
 import QrCode from './qrCode';
-import Scan from './scan';
+import ScanQr from './scanqr';
+import ScanBar from './scanbar';
 import Gen from './gen'
 
 import "core-js";
@@ -41,12 +42,15 @@ class App extends Component {
             content = (
                 <Gen />
             );
-        } else  if(window.TARGETACTION === 'scanqr'  || 
-                        window.TARGETACTION === 'scanbar') {
+        } else  if(window.TARGETACTION === 'scanbar') {
             content = (
-                <Scan />
+                <ScanBar/>
             );
-        } 
+        } else  if(window.TARGETACTION === 'scanqr' ) {
+            content = (
+                <ScanQr/>
+            );
+        }
 
         return (
             <MuiThemeProvider>
@@ -56,8 +60,9 @@ class App extends Component {
                         <Router >
                             <div>
                                 <Route exact path="/" component={QrCode} />                    
-                                <Route path="/odaqr/webviewApp/(.*)/scan" component={Scan} /> 
-                                <Route path="/odaqr/webviewApp/(.*)/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                <Route path="/scanqr" component={ScanQr} /> 
+                                <Route path="/scanbar" component={ScanBar} /> 
+                                <Route path="/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                             </div>
                         </Router>
                         {content}

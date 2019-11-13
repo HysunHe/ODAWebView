@@ -4,7 +4,7 @@ import { BrowserQRCodeReader, BrowserBarcodeReader } from '@zxing/library';
 import { postback } from './RestUtil';
 import './App.css';
 
-class Scan extends Component {
+class ScanBar extends Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -24,9 +24,7 @@ class Scan extends Component {
     async componentDidMount() {
         console.log("*** Scan componentDidMount");
         console.log("*** Scanning QR code");
-        const codeReader = window.TARGETACTION === 'scanbar' ? 
-            new BrowserBarcodeReader() : new BrowserQRCodeReader();
-        // const codeReader = new BrowserBarcodeReader();
+        const codeReader = new BrowserBarcodeReader();
         let devices = await codeReader.getVideoInputDevices();
         console.log("*** devices: " , devices);
 
@@ -133,10 +131,8 @@ class Scan extends Component {
        payload["txid"] = "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear();
        const d = new Date();
        payload["datetime"] =  [d.getFullYear(), d.getMonth()+1, d.getDate()].join('-')+' '+ [d.getHours(), d.getMinutes(), d.getSeconds()].join(':');
-       if( window.TARGETACTION === 'scanbar' ) {
-            payload["merchantid"] = "merchant - " + (new Date()).getMinutes();
-            payload["merchantname"] = "Mall - " +  (new Date()).getSeconds();
-       }
+        payload["merchantid"] = "merchant - " + (new Date()).getMinutes();
+        payload["merchantname"] = "Mall - " +  (new Date()).getSeconds();
        console.log("*** payload", payload);
         postback(payload, null, null);
         this.toggleSpinner("hide");
@@ -151,4 +147,4 @@ class Scan extends Component {
     }
 }
 
-export default Scan;
+export default ScanBar;
