@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserQRCodeReader, BrowserBarcodeReader } from '@zxing/library';
-// import RefreshIndicator from 'material-ui/RefreshIndicator';
+import Quagga from 'quagga';
 import { postback } from './RestUtil';
 import './App.css';
 
@@ -11,7 +10,6 @@ class ScanBar extends Component {
             showAmt:  false,
             showScan:  true,
             payDone: false,
-            loadingState: "hide",
             amount: 100
          };
          this.confirmPay = this.confirmPay.bind(this);
@@ -23,27 +21,51 @@ class ScanBar extends Component {
 
     async componentDidMount() {
         console.log("*** Scan componentDidMount");
-        console.log("*** Scanning QR code");
-        const codeReader = new BrowserBarcodeReader();
-        let devices = await codeReader.getVideoInputDevices();
-        console.log("*** devices: " , devices);
+        let _this = this;
+        Quagga.init({
+            inputStream : {
+                name : "Live",
+                type : "LiveStream"
+              },
+              decoder : {
+                readers : ["code_128_reader"]
+              }
+        }, function(err) {
+            if (err) {
+                console.log(err);
+                return false;
+            }
+            Quagga.start();
+        });
+        Quagga.onProcessed(function(result) {
+            var drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+    
+            if (result) {
+                if (result.boxes) {
+                    drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                    result.boxes.filter(function (box) {
+                        return box !== result.box;
+                    }).forEach(function (box) {
+                        Quagga.ImageDebug.drawPath(box, {x: 0, y: 1}, drawingCtx, {color: "green", lineWidth: 2});
+                    });
+                }
+    
+                if (result.box) {
+                    Quagga.ImageDebug.drawPath(result.box, {x: 0, y: 1}, drawingCtx, {color: "#00F", lineWidth: 2});
+                }
+    
+                if (result.codeResult && result.codeResult.code) {
+                    Quagga.ImageDebug.drawPath(result.line, {x: 'x', y: 'y'}, drawingCtx, {color: 'red', lineWidth: 3});
+                }
+            }
+        });
 
-        // Default
-        codeReader.decodeFromInputVideoDevice(null, 'video')
-            .then((result) => {
-                console.log("Decode result: ", result);
-                this.confirmPay(result);
-                 // this.inputAmt.focus();
-          }).catch((err) => {
-                console.error("Decode error:", err);
-          })
-    }
-
-    toggleSpinner = (loading) => {
-        this.setState(() => {
-            return {
-                loadingState: loading
-            };
+        Quagga.onDetected(function(result) {
+            _this.confirmPay({
+                text: result.codeResult.code
+            });
+            Quagga.stop();
         });
     }
 
@@ -64,18 +86,11 @@ class ScanBar extends Component {
         let scanSection = "";
         if(this.state.showScan) {
             scanSection = (
-                <div>
-                    <div>
-                        <div id="sourceSelectPanel" style={{display:"none", justifyContent: "center",  alignItems: "center"}}>
-                            {/* <label htmlFor="sourceSelect">Change video source:</label> */}
-                            <select id="sourceSelect" style={{width: "68%", minWidth: "280px", maxWidth: "480px", height: "36px"}}> 
-                                <option value="">Default</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style={{display: "flex",  justifyContent: "center",  alignItems: "center", marginTop: "20px"}}>
-                        <video id="video" className="QrCode-Square" style={{width: "100%"}}></video>
-                    </div>
+                <div style={{display: "flex",  justifyContent: "center",  alignItems: "center", marginTop: "20px"}}>
+                    {/* <video id="video" className="QrCode-Square" style={{width: "100%"}}></video> */}
+                    <section id="container" className="container">
+                        <div id="interactive" className="viewport"></div>
+                    </section>
                 </div>
             )
         }
@@ -91,10 +106,6 @@ class ScanBar extends Component {
 
         return (
             <div className="QrCode-Scan-Region">
-                {/* <RefreshIndicator size={60} 
-                        status={this.state.loadingState} top={50} left={50}
-                        style={{position:"absolute", top:"50%", left:"50%", 
-                        transform:"translateX(-50%) translateY(-50%)"}} /> */}
                 {scanSection}
                 {amtSection}
                 {payDoneSection}
@@ -121,7 +132,6 @@ class ScanBar extends Component {
     }
 
     confirmPay(result) {
-       this.toggleSpinner("loading");
        let payload;
        if(this.hasJsonStructure(result.text)) {
             payload = JSON.parse(result.text);
@@ -135,7 +145,6 @@ class ScanBar extends Component {
         payload["merchantname"] = "Mall - " +  (new Date()).getSeconds();
        console.log("*** payload", payload);
         postback(payload, null, null);
-        this.toggleSpinner("hide");
         this.setState({ 
             showAmt:  false,
             showScan:  false,

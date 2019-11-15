@@ -56,7 +56,12 @@ async function postback(payload, callback, errorCallback) {
     });
 }
 
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export {
     jsonToQueryString,
-    postback
+    postback,
+    sleep
 };

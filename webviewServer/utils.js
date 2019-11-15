@@ -155,10 +155,15 @@ function removeExpiredTempDirs() {
     setTimeout(removeExpiredTempDirs, TIME_INTERVAL);
 };
 
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 module.exports = {
     "copyDir": copyDir,
     "debugLog": debugLog,
     "replaceData": replaceData,
     "removeExpiredTempDirs": removeExpiredTempDirs,
-    "setWebviewPath": setWebviewPath
+    "setWebviewPath": setWebviewPath,
+    "sleep": sleep
 };

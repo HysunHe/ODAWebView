@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router,Route} from 'react-router-dom';
 
 import QrCode from './qrCode';
+// import Scan from './scan';
 import ScanQr from './scanqr';
 import ScanBar from './scanbar';
 import Gen from './gen'
@@ -16,9 +17,6 @@ import VConsole from 'vconsole';
 window.vConsole = new VConsole();
 
 class TitleBar extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         return (
             <div className="App-header">
@@ -59,7 +57,8 @@ class App extends Component {
                         <TitleBar title={this.state.title} />
                         <Router >
                             <div>
-                                <Route exact path="/" component={QrCode} />                    
+                                <Route exact path="/" component={QrCode} />   
+                                {/* <Route path="/scan" component={Scan} />                   */}
                                 <Route path="/scanqr" component={ScanQr} /> 
                                 <Route path="/scanbar" component={ScanBar} /> 
                                 <Route path="/gen" component={Gen} />                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      

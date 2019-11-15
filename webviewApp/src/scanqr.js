@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserQRCodeReader, BrowserBarcodeReader } from '@zxing/library';
+import { BrowserQRCodeReader } from '@zxing/library';
 // import RefreshIndicator from 'material-ui/RefreshIndicator';
 import { postback } from './RestUtil';
 import './App.css';

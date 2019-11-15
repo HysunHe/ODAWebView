@@ -1,6 +1,6 @@
 FROM nginx
 
-COPY webviewApp /usr/share/nginx/html/webviewApp
+COPY build /usr/share/nginx/html/webviewApp
 
 
 
