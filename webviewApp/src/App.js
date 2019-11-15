@@ -35,6 +35,7 @@ class App extends Component {
     }
 
     render() {
+        console.log("***target action: " + window.TARGETACTION);
         let content = "";
         if(window.TARGETACTION === 'gen') {
             content = (

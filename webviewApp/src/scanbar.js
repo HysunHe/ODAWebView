@@ -62,6 +62,7 @@ class ScanBar extends Component {
         });
 
         Quagga.onDetected(function(result) {
+            console.log("*** Got result: ", result);
             _this.confirmPay({
                 text: result.codeResult.code
             });
