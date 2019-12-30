@@ -42,7 +42,7 @@ function getServedPath(appPackageJson) {
 module.exports = {
   dotenv: resolveApp('.env'),
   //appBuild: resolveApp('build'),
-  appBuild: '/home/hysun/projects/ODAQR/sourcecode/webviewServer/webviewApp/template',
+  appBuild: '/c/Projects/HanaBank/ODAWebView/webviewServer/webviewApp/template',
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),

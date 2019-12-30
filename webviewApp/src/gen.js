@@ -1,33 +1,63 @@
 import React, { Component } from 'react';
 import { BrowserQRCodeSvgWriter } from '@zxing/library';
 import { postback } from './RestUtil';
+import axios from 'axios';
 import './App.css';
 
 class Gen extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            payDone: false
+            payDone: false,
+            content: null,
+            tx: null,
+            qrContentLoaded: false
          };
          this.completedPay = this.completedPay.bind(this);
+         this.generateQrCode = this.generateQrCode.bind(this);
     }
 
-    componentWillMount() {
-        console.log("*** Scan componentWillMount");
-    }
-
-    async componentDidMount() {  
+    componentDidMount() { 
+        let _this = this; 
         const codeWriter = new BrowserQRCodeSvgWriter();
-        const input = {
-            "customerid": "customer128934",
-            "customername": "Spider Man",
-            "datetime": (new Date()).getTime()
-        }
-        codeWriter.writeToDom('#result', JSON.stringify(input), 300, 300);
-        console.log("*** Generating QR code...[Done]");
+        // const input = {
+        //     "customerid": "customer128934",
+        //     "customername": "Spider Man",
+        //     "datetime": (new Date()).getTime()
+        // }
+        //codeWriter.writeToDom('#result', JSON.stringify(input), 300, 300);
+        //console.log("*** Generating QR code...[Done]");
+        _this.generateQrCode(codeWriter);
+
+        let isChecking = false;
+        setInterval(async () => {
+            if(isChecking || _this.state.content === null) {
+                return true;
+            }
+            isChecking = true;
+            let response = await axios.get('https://o100.odainfra.com/cpm/check-completeness', {
+                params: {
+                    glnTxNo: _this.state.content.GLN_TX_NO
+                }
+            });
+            console.log(_this.state.content.GLN_TX_NO + " : " + response.data.STATUS);
+            if(response.data.STATUS === 'Completed') {
+                _this.setState({
+                    tx: response.data.TX
+                });
+                _this.completedPay();
+                isChecking = true; // No need to checking anymore
+            } else {
+                _this.setState({
+                    tx: null
+                });
+                isChecking = false; // Continue checking
+            }
+        }, 1000);
     }
 
     render() {
+        // console.log("*** props ***", this.props);
         let codeSection = "",  payDoneSection = "";
         if(this.state.payDone) {
             payDoneSection = (
@@ -40,7 +70,7 @@ class Gen extends Component {
                 <div className="QrCode-Scan-Region">
                     <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
                     </div>
-                    <button className="normal-button" onClick={this.completedPay}>Done</button>  
+                    <button className={this.state.qrContentLoaded ? "normal-button" : "hide"} onClick={this.completedPay}>Done</button>  
                 </div>
             );
         }
@@ -53,14 +83,33 @@ class Gen extends Component {
         );
     }
 
+    generateQrCode(codeWriter) {
+        let _this = this;
+        axios.get('https://o100.odainfra.com/cpm/gencode').then(function (response) {
+            console.log("*** response ***", response);
+            _this.setState({
+                content: response.data,
+                qrContentLoaded: true
+            });
+            codeWriter.writeToDom('#result', response.data.QR_CODE, 300, 300);
+            console.log("*** Generating QR code...[Done]");
+        });
+    }
+
     completedPay() {
         const d = new Date();
-         const payload =  {
+        const payload =  {
             "txid": "T" + (new Date()).getMinutes() + (new Date()).getHours() + (new Date()).getFullYear(),
             "merchantid": "merchant - " + (new Date()).getMinutes(),
             "merchantname": "Mall - " +  (new Date()).getSeconds(),
             "amount":   (new Date()).getMilliseconds(),
             "datetime":  [d.getFullYear(), d.getMonth()+1, d.getDate()].join('-')+' '+ [d.getHours(), d.getMinutes(), d.getSeconds()].join(':')
+        }
+        if(this.state.tx !== null) {
+            let doneTx = this.state.tx;
+            payload.txid = doneTx.glnTxNo;
+            payload.amount = doneTx.txAmt;
+            payload.datetime = doneTx.approveDateTime;
         }
          postback(payload, null, null);
          this.setState({ 
