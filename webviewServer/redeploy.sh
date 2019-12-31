@@ -1,12 +1,5 @@
 # Build and remote deployment.
 
-# Building the UI part
-cd ../webviewApp
-
-npm run build
-
-cd -
-
 # Building the proxy part
 ./build-image.sh
 
