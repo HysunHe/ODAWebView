@@ -19,7 +19,7 @@ class QrCode extends Component {
                     onClick={this.goToScanBar}>Scan Bar Code</button>
 
                 <button className="App-toolbar-button"
-                    onClick={this.goToGen}>Generate QR Code</button>   
+                    onClick={this.goToGen}>Present Pay Code</button>   
             </div>
         ); 
     }

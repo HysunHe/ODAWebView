@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserQRCodeSvgWriter } from '@zxing/library';
+import JsBarcode from 'jsbarcode';
 import { postback } from './RestUtil';
 import axios from 'axios';
 import './App.css';
@@ -14,21 +15,12 @@ class Gen extends Component {
             qrContentLoaded: false
          };
          this.completedPay = this.completedPay.bind(this);
-         this.generateQrCode = this.generateQrCode.bind(this);
+         this.generateQrAndBarCode = this.generateQrAndBarCode.bind(this);
     }
 
     componentDidMount() { 
         let _this = this; 
-        const codeWriter = new BrowserQRCodeSvgWriter();
-        // const input = {
-        //     "customerid": "customer128934",
-        //     "customername": "Spider Man",
-        //     "datetime": (new Date()).getTime()
-        // }
-        //codeWriter.writeToDom('#result', JSON.stringify(input), 300, 300);
-        //console.log("*** Generating QR code...[Done]");
-        _this.generateQrCode(codeWriter);
-
+        _this.generateQrAndBarCode();
         let isChecking = false;
         setInterval(async () => {
             if(isChecking || _this.state.content === null) {
@@ -68,7 +60,9 @@ class Gen extends Component {
         } else {
             codeSection = (
                 <div className="QrCode-Scan-Region">
-                    <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > 
+                    <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > </div>
+                    <div className="BarCode-Square" id="barresult" style={{marginTop:"20px"}} > 
+                        <svg id="barcode"></svg>
                     </div>
                     <button className={this.state.qrContentLoaded ? "normal-button" : "hide"} onClick={this.completedPay}>Done</button>  
                 </div>
@@ -83,16 +77,20 @@ class Gen extends Component {
         );
     }
 
-    generateQrCode(codeWriter) {
+    generateQrAndBarCode() {
+        console.log("*** generateQrAndBarCode ***");
         let _this = this;
+
+        const codeWriter = new BrowserQRCodeSvgWriter();
         axios.get('https://o100.odainfra.com/cpm/gencode').then(function (response) {
             console.log("*** response ***", response);
             _this.setState({
                 content: response.data,
                 qrContentLoaded: true
             });
+            JsBarcode("#barcode", response.data.BAR_CODE);
             codeWriter.writeToDom('#result', response.data.QR_CODE, 300, 300);
-            console.log("*** Generating QR code...[Done]");
+            console.log("*** generateQrAndBarCode...[Done]");
         });
     }
 

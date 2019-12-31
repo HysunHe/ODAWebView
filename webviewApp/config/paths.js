@@ -43,6 +43,7 @@ module.exports = {
   dotenv: resolveApp('.env'),
   //appBuild: resolveApp('build'),
   appBuild: '/home/oracle/hysun-workspace/ODAWebView/webviewServer/webviewApp/template',
+  //appBuild: '/c/Projects/HanaBank/ODAWebView/webviewServer/webviewApp/template',
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
