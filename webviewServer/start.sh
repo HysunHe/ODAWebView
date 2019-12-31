@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+docker stop odaqr
+docker rm odaqr
+
 docker run -d \
     --restart=always \
     --name=odaqr \
