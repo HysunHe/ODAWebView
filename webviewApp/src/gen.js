@@ -22,7 +22,7 @@ class Gen extends Component {
         let _this = this; 
         _this.generateQrAndBarCode();
         let isChecking = false;
-        setInterval(async () => {
+        let checker = setInterval(async () => {
             if(isChecking || _this.state.content === null) {
                 return true;
             }
@@ -34,6 +34,7 @@ class Gen extends Component {
             });
             console.log(_this.state.content.GLN_TX_NO + " : " + response.data.STATUS);
             if(response.data.STATUS === 'Completed') {
+                clearInterval(checker);
                 _this.setState({
                     tx: response.data.TX
                 });
