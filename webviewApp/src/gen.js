@@ -60,7 +60,7 @@ class Gen extends Component {
         } else {
             codeSection = (
                 <div className="QrCode-Scan-Region">
-                    <div className="QrCode-Square" id="result" style={{marginTop:"20px"}} > </div>
+                    <div className="QrCode-Square" id="result" style={{marginTop:"0px"}} > </div>
                     <div className="BarCode-Square" id="barresult" style={{marginTop:"20px"}} > 
                         <svg id="barcode"></svg>
                     </div>
