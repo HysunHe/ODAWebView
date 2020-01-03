@@ -29,7 +29,7 @@ class Gen extends Component {
             isChecking = true;
             let response = await axios.get('https://o100.odainfra.com/cpm/check-completeness', {
                 params: {
-                    glnTxNo: _this.state.content.GLN_TX_NO
+                    payCode: _this.state.content.PAY_CODE
                 }
             });
             console.log(_this.state.content.GLN_TX_NO + " : " + response.data.STATUS);
